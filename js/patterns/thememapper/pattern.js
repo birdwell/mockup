@@ -5,6 +5,7 @@
  *    mockupUrl(string): Mockup url (null)
  *    unthemedUrl(string): unthemed site url (null)
  *    helpUrl(string): Helper docs url (null)
+ *    previewUrl(string): url to preview theme (null)
  *
  *
  * Documentation:
@@ -19,7 +20,9 @@
  *    <div class="pat-thememapper"
  *         data-pat-thememapper='filemanagerConfig:{"actionUrl":"/filemanager-actions"};
  *                               mockupUrl:/tests/files/mapper.html;
- *                               unthemedUrl:/tests/files/mapper.html;'></div>
+ *                               unthemedUrl:/tests/files/mapper.html;
+ *                               previewUrl:http://www.google.com;
+ *                               helpUrl:http://docs.diazo.org/en/latest'></div>
  *
  *
  * License:
@@ -437,10 +440,14 @@ define([
       filemanagerConfig: {},
       mockupUrl: null,
       unthemedUrl: null,
-      helpUrl: null
+      helpUrl: null,
+      previewUrl: null
     },
     buttonGroup: null,
     showInspectorsButton: null,
+    buildRuleButton: null,
+    previewThemeButton: null,
+    helpButton: null,
     hidden: true,
     fileManager: null,
     mockupInspector: null,
@@ -515,9 +522,39 @@ define([
         }
       });
 
+      self.buildRuleButton = new ButtonView({
+        id: 'buildrule',
+        title: 'Build rule',
+        tooltip: 'rule building wizard',
+        context: 'default'
+      });
+
+      self.previewThemeButton = new ButtonView({
+        id: 'previewtheme',
+        title: 'Preview theme',
+        tooltip: 'preview theme in a new window',
+        context: 'default'
+      });
+      self.previewThemeButton.on('button:click', function(){
+        window.open(self.options.previewUrl);
+      });
+
+      self.helpButton = new ButtonView({
+        id: 'helpbutton',
+        title: 'Help',
+        tooltip: 'Show help',
+        context: 'default'
+      });
+      self.helpButton.on('button:click', function(){
+        window.open(self.options.helpUrl);
+      });
+
       self.buttonGroup = new ButtonGroup({
         items: [
-          self.showInspectorsButton
+          self.showInspectorsButton,
+          self.buildRuleButton,
+          self.previewThemeButton,
+          self.helpButton
         ],
         id: 'mapper'
       });
