@@ -45,8 +45,10 @@ define([
   'mockup-patterns-base',
   'underscore',
   'text!js/patterns/thememapper/inspector.xml',
-  'mockup-patterns-filemanager'
-], function($, Base, _, InspectorTemplate, FileManager) {
+  'mockup-patterns-filemanager',
+  'js/ui/views/button',
+  'js/ui/views/buttongroup'
+], function($, Base, _, InspectorTemplate, FileManager, ButtonView, ButtonGroup) {
   'use strict';
 
   var inspectorTemplate = _.template(InspectorTemplate);
@@ -437,6 +439,16 @@ define([
       unthemedUrl: null,
       helpUrl: null
     },
+    buttonGroup: null,
+    showInspectorsButton: null,
+    hidden: true,
+    fileManager: null,
+    mockupInspector: null,
+    unthemedInspector: null,
+    $fileManager: null,
+    $container: null,
+    $mockupInspector: null,
+    $unthemedInspector: null,
     init: function() {
       var self = this;
       if(typeof(self.options.filemanagerConfig) === 'string'){
@@ -463,6 +475,53 @@ define([
         ruleBuilder: self.ruleBuilder,
         url: self.options.unthemedUrl
       });
+      self.setupButtons();
+
+      // initially, let's hide the panels
+      self.hideInspectors();
+    },
+    showInspectors: function(){
+      var self = this;
+      var $parent = self.$mockupInspector.parent();
+      $parent.slideDown();
+      self.hidden = false;
+      self.showInspectorsButton.options.title = 'Hide inspectors';
+      self.showInspectorsButton.applyTemplate();
+      $('html, body').animate({
+        scrollTop: $parent.offset().top - 50
+      }, 1000); 
+    },
+    hideInspectors: function(){
+      var self = this;
+      var $parent = self.$mockupInspector.parent();
+      $parent.slideUp();
+      self.hidden = true;
+      self.showInspectorsButton.options.title = 'Show inspectors';
+      self.showInspectorsButton.applyTemplate();
+    },
+    setupButtons: function(){
+      var self = this;
+      self.showInspectorsButton = new ButtonView({
+        id: 'showinspectors',
+        title: 'Show inspectors',
+        tooltip: 'Show inspector panels',
+        context: 'default'
+      });
+      self.showInspectorsButton.on('button:click', function(){
+        if (self.hidden) {
+          self.showInspectors();
+        } else {
+          self.hideInspectors();
+        }
+      });
+
+      self.buttonGroup = new ButtonGroup({
+        items: [
+          self.showInspectorsButton
+        ],
+        id: 'mapper'
+      });
+      $('#toolbar .navbar', self.$el).append(self.buttonGroup.render().el);
     }
   });
 
