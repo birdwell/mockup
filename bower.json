@@ -13,8 +13,8 @@
     "es5-shim": "2.3.0",
     "html5shiv": "3.7.0",
     "jqtree": "0.20.0",
-    "jquery": "1.8.3",
-    "jquery-form": "3.46.0",
+    "jquery": "1.9.1",
+    "jquery-form": "git@github.com:malsup/form.git/#master",
     "jquery.cookie": "1.4.0",
     "lodash": "2.4.1",
     "mockup-core": "1.2.4",
@@ -26,9 +26,9 @@
   },
   "devDependencies": {
     "expect": "0.3.1",
-    "sinonjs": "1.9.0"
+    "sinonjs": "1.10.2"
   },
   "resolutions": {
-    "jquery": "1.8.3"
+    "jquery": "1.9.1"
   }
 }
