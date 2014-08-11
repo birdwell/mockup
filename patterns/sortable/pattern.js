@@ -96,7 +96,7 @@ define([
         start = $(this).index();
         return $( this ).clone().
           addClass(self.options.cloneClass).
-          css({opacity: 0.75, position: 'absolute'}).
+          css({opacity: 0.76, position: 'absolute'}).
           appendTo(document.body);
       })
       .drag(function(e, dd) {
